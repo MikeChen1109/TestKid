@@ -1,0 +1,21 @@
+name: Continuous Integration
+
+on: 
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '2.10.5'
+          channel: 'stable'
+          cache: true
+          architecture: x64
+      - run: flutter pub get
+      #檢查格式
+      - run: flutter format .
+      #分析程式碼
+      - run: flutter analyze
