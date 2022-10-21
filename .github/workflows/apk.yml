@@ -9,7 +9,7 @@ jobs:
     env: # ADD environment variables
       PROPERTIES_PATH: "./android/key.properties"
       ALIAS_PASSWORD: ${{ secrets.ALIAS_PASSWORD }}
-      JAVA_VERSION: "11.x"
+      JAVA_VERSION: "11"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
