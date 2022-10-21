@@ -17,6 +17,12 @@ jobs:
           cache: true
           architecture: x64  
       - run: flutter pub get
+      - name: Sign APK
+        env:
+          KEY_JKS: ${{ secrets.KEY_JKS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          ALIAS_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: echo $KEY_JKS > KHKeyStore.jks
       - run: flutter build apk --release
       - uses: actions/upload-artifact@v3
         with:
