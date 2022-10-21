@@ -65,10 +65,12 @@ android {
 
     signingConfigs {
         release {
-            keyAlias System.getenv("ALIAS_PASSWORD")
-            keyPassword System.getenv("KEY_PASSWORD")
-            storeFile System.getenv("KEY_PATH") ? file(System.getenv("KEY_PATH")) : null
-            storePassword System.getenv("KEY_PASSWORD")
+            storeFile = file('KHKeyStore.jks')
+            
+            //From key.properties
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storePassword keystoreProperties['storePassword']
         }
     }
     buildTypes {

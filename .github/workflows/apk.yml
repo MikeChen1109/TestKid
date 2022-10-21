@@ -7,9 +7,7 @@ jobs:
   build_apk:
     runs-on: macos-latest
     env: # ADD environment variables
-      KEY_JKS: ${{ secrets.KEY_JKS }}
-      KEY_PATH: ${{ github.workspace }}/KHKeyStore.jks
-      KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+      PROPERTIES_PATH: "./android/key.properties"
       ALIAS_PASSWORD: ${{ secrets.ALIAS_PASSWORD }}
     steps:
       - name: Checkout repository
@@ -22,9 +20,13 @@ jobs:
           cache: true
           architecture: x64 
       - name: Create key file
-        run: echo $KEY_JKS > KHKeyStore.jks
+      - run: |
+          echo keyPassword=\${{ secrets.KEY_PASSWORD }} > ${{env.PROPERTIES_PATH}}
+          echo storePassword=\${{ secrets.KEY_PASSWORD }} >> ${{env.PROPERTIES_PATH}}
+          echo keyAlias=\${{ secrets.ALIAS_PASSWORD }} >> ${{env.PROPERTIES_PATH}}
+      - run: echo "${{ secrets.KEY_JKS }}" | base64 --decode > android/app/KHKeyStore.jks
       - run: flutter pub get
-      - run: flutter build apk --release
+      - run: flutter build appbundle --release
       - uses: actions/upload-artifact@v3
         with:
           name: release-dev-apk
