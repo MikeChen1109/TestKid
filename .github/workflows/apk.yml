@@ -6,6 +6,11 @@ on:
 jobs:
   build_apk:
     runs-on: macos-latest
+    env: # ADD environment variables
+      KEY_JKS: ${{ secrets.KEY_JKS }}
+      KEY_PATH: ${{ github.workspace }}/key.jks
+      KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+      ALIAS_PASSWORD: ${{ secrets.ALIAS_PASSWORD }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -15,14 +20,10 @@ jobs:
           flutter-version: '2.10.5'
           channel: 'stable'
           cache: true
-          architecture: x64  
+          architecture: x64 
+      - name: Create key file
+        run: echo $KEY_JKS | base64 -di > key.jks 
       - run: flutter pub get
-      - name: Sign APK
-        env:
-          KEY_JKS: ${{ secrets.KEY_JKS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-          ALIAS_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-        run: echo $KEY_JKS > android/key.jks
       - run: flutter build apk --release
       - uses: actions/upload-artifact@v3
         with:
