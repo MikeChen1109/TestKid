@@ -24,7 +24,7 @@ jobs:
           echo keyPassword=\${{ secrets.KEY_PASSWORD }} > ${{env.PROPERTIES_PATH}}
           echo storePassword=\${{ secrets.KEY_PASSWORD }} >> ${{env.PROPERTIES_PATH}}
           echo keyAlias=\${{ secrets.ALIAS_PASSWORD }} >> ${{env.PROPERTIES_PATH}}
-          echo "${{ secrets.KEY_JKS }}" | base64 --decode > android/app/KHKeyStore.jks
+          echo "${{ secrets.KEY_JKS }}" | base64 --decode > android/app/key/KHKeyStore.jks
       - run: flutter pub get
       - run: flutter build appbundle --release
       - uses: actions/upload-artifact@v3
