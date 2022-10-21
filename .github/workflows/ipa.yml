@@ -1,0 +1,70 @@
+name: Build APK & iOS
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  build_ipa:
+    runs-on: macos-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Install the Apple certificate and provisioning profile
+        env:
+          RELEASE_CERTIFICATE_BASE64: ${{ secrets.RELEASE_CERTIFICATE_BASE64 }}
+          BUILD_CERTIFICATE_BASE64: ${{ secrets.DEV_CERTIFICATE_BASE64 }}
+          DEV_P12_PASSWORD: ${{ secrets.DEV_P12_PASSWORD }}
+          RELEASE_P12_PASSWORD: ${{ secrets.RELEASE_P12_PASSWORD }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+        run: |
+          # create variables
+          CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
+          RELEASE_CERTIFICATE_PATH=$RUNNER_TEMP/release_certificate.p12
+          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+          echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode --output $CERTIFICATE_PATH
+          echo -n "$RELEASE_CERTIFICATE_BASE64" | base64 --decode --output $RELEASE_CERTIFICATE_PATH
+          # create temporary keychain
+          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          # import certificate to keychain
+          security import $CERTIFICATE_PATH -P "$DEV_P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security import $RELEASE_CERTIFICATE_PATH -P "$RELEASE_P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security list-keychain -d user -s $KEYCHAIN_PATH
+      - name: Install the provisioning profile
+        env:
+          PP_FILE_DEV_BASE64: ${{ secrets.DEV_PROVISION_PROFILE_BASE64 }}
+          PP_FILE_RELEASE_BASE64: ${{ secrets.RELEASE_PROVISION_PROFILE_BASE64 }}
+        run: |
+          PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
+          echo -n "$PP_FILE_DEV_BASE64" | base64 --decode --output $PP_PATH
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
+          RELEASE_PP_PATH=$RUNNER_TEMP/release_pp.mobileprovision
+          echo -n "$PP_FILE_RELEASE_BASE64" | base64 --decode --output $RELEASE_PP_PATH
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          cp $RELEASE_PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '2.10.5'
+          channel: 'stable'
+          cache: true
+          architecture: x64
+      - run: flutter pub get
+      - name: Building IPA
+        run: flutter build ipa --release --export-options-plist=ios/Runner/ExportOptions.plist
+      # Collect the file and upload as artifact         
+      - name: collect ipa artifacts
+        uses: actions/upload-artifact@v3
+        with:
+         name: release-ipa
+         # Path to the release files
+         path: build/ios/ipa/*.ipa
+      - name: Clean up keychain and provisioning profile
+        if: ${{ always() }}
+        run: |
+          security delete-keychain $RUNNER_TEMP/app-signing.keychain-db
+          rm ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
+  

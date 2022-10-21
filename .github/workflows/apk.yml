@@ -1,0 +1,24 @@
+name: Build APK & iOS
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  build_apk:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '2.10.5'
+          channel: 'stable'
+          cache: true
+          architecture: x64  
+      - run: flutter pub get
+      - run: flutter build apk --release
+      - uses: actions/upload-artifact@v3
+        with:
+          name: release-dev-apk
+          path: build/app/outputs/apk/release/app-release.apk
