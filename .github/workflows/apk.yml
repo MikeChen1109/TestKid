@@ -22,7 +22,7 @@ jobs:
           cache: true
           architecture: x64 
       - name: Create key file
-        run: echo $KEY_JKS | base64 -di > key.jks 
+        run: echo $KEY_JKS > key.jks
       - run: flutter pub get
       - run: flutter build apk --release
       - uses: actions/upload-artifact@v3
