@@ -65,10 +65,10 @@ android {
 
     signingConfigs {
         release {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile keystoreProperties['storeFile'] ? file("../KHKeyStore.jks") : null
-            storePassword keystoreProperties['storePassword']
+            storeFile file("../key.jks")
+            storePassword = "$System.env.KEY_PASSWORD"
+            keyAlias = "kh@jooca"
+            keyPassword = "$System.env.KEY_PASSWORD"
         }
     }
     buildTypes {
