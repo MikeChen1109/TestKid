@@ -1,4 +1,4 @@
-name: Build APK & iOS
+name: Build IPA
 
 on: 
   workflow_dispatch:
