@@ -54,9 +54,6 @@ android {
     }
 
     defaultConfig {
-        configurations.all {
-            resolutionStrategy { force 'androidx.core:core-ktx:1.6.0' }
-        }
         applicationId 'com.jooca.kitchenhand.launch'
         minSdkVersion 19
         targetSdkVersion 32//28
@@ -94,7 +91,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation platform('com.google.firebase:firebase-bom:28.4.2')
     implementation 'com.google.firebase:firebase-analytics'
-    implementation "androidx.core:core-ktx:1.6.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
