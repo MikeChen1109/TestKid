@@ -1,0 +1,56 @@
+name: easy_cook
+description: TBD
+# author: Jooca Team
+version: 2.0.0+9
+
+environment:
+  sdk: ">=2.12.0-0.0.dev <3.0.0"
+
+dependencies:
+  youtube_player_flutter: 8.0.0
+  pod_player: ^0.0.5
+  firebase_analytics: 9.3.3
+  firebase_core: 1.21.1
+  firebase_crashlytics: 2.8.9
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  shared_preferences: ^2.0.6
+  sqflite: ^2.0.0+3
+  flutter_svg:
+  url_launcher:
+  fluttertoast: ^8.0.8
+  flutter_bloc: ^7.2.0
+  freezed_annotation: 1.1.0
+  flutter_riverpod: ^1.0.3
+  get_it: ^7.2.0
+  intl: ^0.17.0
+  dropdown_button2: 1.4.0
+  buttons_tabbar: ^1.3.1
+  package_info_plus: ^1.4.2
+  flutter_facebook_sdk: ^1.0.0
+  percent_indicator: 4.0.0
+  flutter_staggered_grid_view: 0.4.0
+  share_plus: ^4.0.10
+  badges:
+
+dependency_overrides:
+  youtube_explode_dart: ^1.11.0
+
+dev_dependencies:
+  test: any
+  freezed: 1.1.0
+  build_runner:
+
+flutter:
+  uses-material-design: true
+  generate: true
+  assets:
+    - assets/icons/
+    - assets/images/
+    - assets/menu_db/
+    - assets/ingredient_db/
+    - assets/menu_ingredient_db/
+    - assets/step_db/
+    - assets/menu_type_db/

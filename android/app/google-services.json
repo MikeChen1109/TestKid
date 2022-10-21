@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "951368706859",
+    "project_id": "kitchenhand-7e751",
+    "storage_bucket": "kitchenhand-7e751.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:951368706859:android:8e42d91c09d8f3cd55b36e",
+        "android_client_info": {
+          "package_name": "com.jooca.kitchenhand.launch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "951368706859-80out36bjuncnjrmhujhh7q7t0s0lq1l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPBiOrEBdvNd7ZjHnJEmHjPcYqVTZ3Xow"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "951368706859-80out36bjuncnjrmhujhh7q7t0s0lq1l.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "951368706859-vfl41sn1tisftih4lesa7n2t4q3l1nfh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.jooca.kitchenhand.launch"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
