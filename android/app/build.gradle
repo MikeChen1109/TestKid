@@ -55,7 +55,7 @@ android {
     defaultConfig {
         applicationId 'com.jooca.kitchenhand.launch'
         minSdkVersion 19
-        targetSdkVersion 31//28
+        targetSdkVersion 33//28
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
