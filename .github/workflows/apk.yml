@@ -5,7 +5,7 @@ on:
 
 jobs:
   build_apk:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     env: # ADD environment variables
       PROPERTIES_PATH: "./android/key.properties"
       ALIAS_PASSWORD: ${{ secrets.ALIAS_PASSWORD }}
