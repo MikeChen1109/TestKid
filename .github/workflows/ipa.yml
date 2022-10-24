@@ -55,13 +55,16 @@ jobs:
       - run: flutter pub get
       - name: Building IPA
         run: flutter build ipa --release --export-options-plist=ios/Runner/ExportOptions.plist
+      - name: Make Artefact
+        run: |
+        zip artefact.zip build/ios/ipa/*.ipa
       # Collect the file and upload as artifact         
       - name: collect ipa artifacts
         uses: actions/upload-artifact@v3
         with:
          name: release-ipa
          # Path to the release files
-         path: build/ios/ipa/*.ipa
+         path: ./artefact.zip
       - name: Clean up keychain and provisioning profile
         if: ${{ always() }}
         run: |
