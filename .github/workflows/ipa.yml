@@ -57,7 +57,7 @@ jobs:
         run: flutter build ipa --release --export-options-plist=ios/Runner/ExportOptions.plist
       - name: Make Artefact
         run: |
-        zip artefact.zip build/ios/ipa/*.ipa
+          zip artefact.zip build/ios/ipa/*.ipa
       # Collect the file and upload as artifact         
       - name: collect ipa artifacts
         uses: actions/upload-artifact@v3
