@@ -37,6 +37,7 @@ dependencies:
 
 dependency_overrides:
   youtube_explode_dart: ^1.11.0
+  firebase_core_platform_interface: 4.5.1
 
 dev_dependencies:
   test: any
